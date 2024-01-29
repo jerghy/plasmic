@@ -1,42 +1,43 @@
-name: Build and deploy Plasmic app on push branches
+name: Build and deploy Plasmic app
 
 on:
   push:
     branches:
-      - master  # 或者你的主分支名称
+      - main
 
 jobs:
-  build-and-deploy:
+  job:
+    name: Build and deploy
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        persist-credentials: false
-        fetch-depth: 0
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18.x'
-
-    - name: Cache node_modules
-      uses: actions/cache@v2
-      with:
-        key: ${{ hashFiles('package-lock.json', 'yarn.lock') }}
-        path: node_modules
-
-
-    - name: Install dependencies
-      run: yarn install
-
-    - name: Build Plasmic app
-      run: npm run build
-
-    - name: Publish to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.0
-      if: steps.build.outputs.publish_dir
-      with:
-        branch: gh-pages
-        folder: ${{ steps.build.outputs.publish_dir }}
+      - id: checkout
+        name: Check out repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - id: node
+        name: Set up node v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+      - id: cache
+        name: Recover cache
+        uses: actions/cache@v2
+        with:
+          key: lock-${{ hashFiles('package-lock.json', 'yarn.lock') }}
+          path: node_modules
+      - id: build
+        name: Build Plasmic app
+        uses: plasmicapp/plasmic-action@master
+        with:
+          run: build
+          branch: main
+          skip_if_plasmic: true
+      - id: gh-pages
+        name: Publish to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        if: ${{ steps.build.outputs.publish_dir }}
+        with:
+          branch: gh-pages
+          folder: ${{ steps.build.outputs.publish_dir }}

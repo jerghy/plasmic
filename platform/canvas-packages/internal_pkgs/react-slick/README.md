@@ -1,1 +1,0 @@
-A clone of react-slick that uses `repeatedElement` from `@plasmicapp/host`

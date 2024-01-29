@@ -1,1 +1,0 @@
-Plasmic registration call for react-quill WYSIWYG Editor

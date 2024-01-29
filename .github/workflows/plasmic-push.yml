@@ -26,6 +26,10 @@ jobs:
       with:
         key: ${{ hashFiles('package-lock.json', 'yarn.lock') }}
         path: node_modules
+    - name: Install plasmic CLI
+      run: |
+        npm install -g plasmic@latest
+        plasmic --version
 
     - name: Install dependencies
       run: yarn install

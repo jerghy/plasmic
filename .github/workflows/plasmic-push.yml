@@ -32,7 +32,7 @@ jobs:
       run: yarn install
 
     - name: Build Plasmic app
-      run: jerghy/plasmic action@master --branch skip_if_plasmic true
+      run: npm run build
 
     - name: Publish to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.0

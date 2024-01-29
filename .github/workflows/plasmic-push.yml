@@ -26,16 +26,13 @@ jobs:
       with:
         key: ${{ hashFiles('package-lock.json', 'yarn.lock') }}
         path: node_modules
-    - name: Install plasmic CLI
-      run: |
-        npm install -g plasmic@latest
-        plasmic --version
+
 
     - name: Install dependencies
       run: yarn install
 
     - name: Build Plasmic app
-      run: plasmicapp/plasmic action@master --branch skip_if_plasmic true
+      run: jerghy/plasmic action@master --branch skip_if_plasmic true
 
     - name: Publish to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@4.1.0

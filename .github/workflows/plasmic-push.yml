@@ -3,7 +3,7 @@ name: Build and deploy Plasmic app on push branches
 on:
   push:
     branches:
-      - main  # 或者你的主分支名称
+      - master  # 或者你的主分支名称
 
 jobs:
   build-and-deploy:

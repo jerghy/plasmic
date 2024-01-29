@@ -1,0 +1,41 @@
+name: Build and deploy Plasmic app on push branches
+
+on:
+  push:
+    branches:
+      - main  # 或者你的主分支名称
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Cache node_modules
+      uses: actions/cache@v2
+      with:
+        key: ${{ hashFiles('package-lock.json', 'yarn.lock') }}
+        path: node_modules
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Build Plasmic app
+      run: plasmicapp/plasmic action@master --branch skip_if_plasmic true
+
+    - name: Publish to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.0
+      if: steps.build.outputs.publish_dir
+      with:
+        branch: gh-pages
+        folder: ${{ steps.build.outputs.publish_dir }}

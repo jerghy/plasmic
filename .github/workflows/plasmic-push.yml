@@ -20,7 +20,7 @@ jobs:
         name: Set up node v16
         uses: actions/setup-node@v2
         with:
-          node-version: '18.x'
+          node-version: '16'
       - id: cache
         name: Recover cache
         uses: actions/cache@v2

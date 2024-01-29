@@ -32,7 +32,7 @@ jobs:
         uses: plasmicapp/plasmic-action@master
         with:
           run: build
-          branch: main
+          branch: master
           skip_if_plasmic: true
       - id: gh-pages
         name: Publish to GitHub Pages
